@@ -28,7 +28,9 @@ function initProductBackgroundSlideshow() {
     "/assets/bg-logistics-1.svg",
     "/assets/bg-logistics-2.svg",
     "/assets/bg-logistics-3.svg",
-    "/assets/bg-logistics-4.svg"
+    "/assets/bg-logistics-4.svg",
+    "/assets/bg-logistics-5.svg",
+    "/assets/bg-logistics-6.svg"
   ];
   for (let i = imgs.length - 1; i > 0; i--) {
     const j = Math.floor(Math.random() * (i + 1));
@@ -63,4 +65,4 @@ html = html.replace(/resetAndRender\(\);\n      return;/, 'resetAndRender();\n  
 html = html.replace(/resetAndRender\(\);\n\}/, 'resetAndRender();\n  initProductBackgroundSlideshow();\n}');
 
 fs.writeFileSync(file, html, 'utf8');
-console.log('Patched homepage with clean logistics background slideshow, broken images removed.');
+console.log('Patched homepage with clean logistics background slideshow, six working images enabled.');
