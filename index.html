@@ -778,6 +778,10 @@ Powered by Real Market Signals
 <span class="small">Currency:</span>
 <button class="currencyBtn" id="currencyUSD" onclick="setCurrency('USD')">USD $</button>
 <button class="currencyBtn active" id="currencyINR" onclick="setCurrency('INR')">INR ₹</button>
+<button class="currencyBtn" id="currencyEUR" onclick="setCurrency('EUR')">EUR €</button>
+<button class="currencyBtn" id="currencyGBP" onclick="setCurrency('GBP')">GBP £</button>
+<button class="currencyBtn" id="currencyCAD" onclick="setCurrency('CAD')">CAD C$</button>
+<button class="currencyBtn" id="currencyAUD" onclick="setCurrency('AUD')">AUD A$</button>
 <span class="rateText" id="fxStatus">Loading exchange rate...</span>
 </div>
 
@@ -793,8 +797,7 @@ Powered by Real Market Signals
 <input id="search" oninput="resetAndRender()" placeholder="Search product, niche, supplier..."/>
 <select id="category" autocomplete="off" onchange="resetAndRender()"><option value="all" selected>All categories</option></select>
 <select id="sort" onchange="resetAndRender()"><option value="winning">Sort: DropTrend score</option><option value="google">Sort: Google growth</option><option value="amazon">Sort: Amazon demand</option><option value="cj">Sort: CJ supplier score</option><option value="margin">Sort: Margin</option><option value="profit">Sort: Profit</option><option value="priceLow">Price: Low to high</option></select>
-<select id="market" onchange="resetAndRender()"><option value="all">All markets</option><option>India</option><option>US</option><option>Worldwide</option></select>
-<button onclick="exportCSV()">Export CSV</button>
+<select id="market" onchange="resetAndRender()"><option value="all" selected>All markets</option><option value="India">India</option><option value="US">US</option><option value="Worldwide">Worldwide</option></select>
 </div>
 
 
@@ -865,7 +868,9 @@ let products = [];
 let saved = JSON.parse(localStorage.getItem('savedProducts') || '[]');
 let savedMode = false;
 let currentCurrency = localStorage.getItem('displayCurrency') || 'INR';
-let usdToInr = 83.5;
+const currencyRates = { USD: 1, INR: 83.5, EUR: 0.92, GBP: 0.78, CAD: 1.36, AUD: 1.52 };
+const currencySymbols = { USD: "$", INR: "₹", EUR: "€", GBP: "£", CAD: "C$", AUD: "A$" };
+let usdToInr = currencyRates.INR;
 let fxIsLive = false;
 let visibleCount = 60;
 const BATCH_SIZE = 60;
@@ -1096,7 +1101,7 @@ function margin(p) { const s = num(p.sell); return s ? Math.round((profit(p) / s
 
 function convertFromUSD(value) {
   const v = num(value);
-  return currentCurrency === "INR" ? v * usdToInr : v;
+  return v * (currencyRates[currentCurrency] || 1);
 }
 
 
@@ -1130,8 +1135,9 @@ function trendDirectionText(value) {
 
 function fmt(n) {
   const value = convertFromUSD(n);
-  if (currentCurrency === "USD") return "$" + Number(value).toLocaleString("en-US", { maximumFractionDigits: 2 });
-  return "₹" + Number(value).toLocaleString("en-IN", { maximumFractionDigits: 2 });
+  const symbol = currencySymbols[currentCurrency] || "$";
+  const localeMap = { USD: "en-US", INR: "en-IN", EUR: "de-DE", GBP: "en-GB", CAD: "en-CA", AUD: "en-AU" };
+  return symbol + Number(value).toLocaleString(localeMap[currentCurrency] || "en-US", { maximumFractionDigits: 2 });
 }
 
 function setCurrency(currency) {
@@ -1143,17 +1149,19 @@ function setCurrency(currency) {
 }
 
 function updateCurrencyButtons() {
-  const usd = document.getElementById("currencyUSD");
-  const inr = document.getElementById("currencyINR");
-  if (usd && inr) {
-    usd.classList.toggle("active", currentCurrency === "USD");
-    inr.classList.toggle("active", currentCurrency === "INR");
-  }
+  Object.keys(currencyRates).forEach(code => {
+    const btn = document.getElementById("currency" + code);
+    if (btn) btn.classList.toggle("active", currentCurrency === code);
+  });
   const fx = document.getElementById("fxStatus");
   if (fx) {
-    fx.textContent = currentCurrency === "INR"
-      ? (fxIsLive ? `Live FX: 1 USD ≈ ₹${usdToInr.toFixed(2)}` : `Fallback FX: 1 USD ≈ ₹${usdToInr.toFixed(2)}`)
-      : "Showing original CJ USD prices";
+    if (currentCurrency === "USD") {
+      fx.textContent = "Showing original CJ USD prices";
+    } else {
+      const rate = currencyRates[currentCurrency] || 1;
+      const symbol = currencySymbols[currentCurrency] || "";
+      fx.textContent = (fxIsLive ? "Live FX" : "Fallback FX") + ": 1 USD ≈ " + symbol + rate.toFixed(2);
+    }
   }
 }
 
@@ -1162,11 +1170,16 @@ async function loadExchangeRate() {
     const res = await fetch("https://open.er-api.com/v6/latest/USD", { cache: "no-store" });
     if (!res.ok) throw new Error("FX HTTP " + res.status);
     const data = await res.json();
-    const rate = Number(data?.rates?.INR);
-    if (Number.isFinite(rate) && rate > 1) {
-      usdToInr = rate;
-      fxIsLive = true;
-    }
+    let updated = false;
+    Object.keys(currencyRates).forEach(code => {
+      const rate = Number(data?.rates?.[code]);
+      if (Number.isFinite(rate) && rate > 0) {
+        currencyRates[code] = rate;
+        updated = true;
+      }
+    });
+    usdToInr = currencyRates.INR;
+    fxIsLive = updated;
   } catch (e) {
     fxIsLive = false;
   }
