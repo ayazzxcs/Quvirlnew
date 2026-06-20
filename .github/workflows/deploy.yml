@@ -47,6 +47,10 @@ jobs:
         run: |
           node patch-home-copy.js
 
+      - name: Patch homepage UI
+        run: |
+          node patch-home-ui.js
+
       - name: Commit generated pages
         run: |
           git config user.name "github-actions"
