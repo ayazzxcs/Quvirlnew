@@ -31,6 +31,10 @@ jobs:
             https://raw.githubusercontent.com/ayazzxcs/Droptrendv2-backend/main/products.json \
             -o products.json
 
+      - name: Patch CJ supplier links
+        run: |
+          node patch-cj-links.js
+
       - name: Generate static product pages
         run: |
           node generate-static-product-pages.js
