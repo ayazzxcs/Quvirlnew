@@ -15,7 +15,8 @@ const currencyBox = `<div class="currencyBox">
 
 html = html.replace(/<div class="currencyBox">[\s\S]*?<span class="rateText" id="fxStatus">Loading exchange rate\.\.\.<\/span>\s*<\/div>/, currencyBox);
 
-html = html.replace(/<select id="market" onchange="resetAndRender\(\)">[\s\S]*?<\/select>\s*<button onclick="exportCSV\(\)">Export CSV<\/button>/, `<select id="market" onchange="resetAndRender()"><option value="all" selected>All markets</option><option value="India">India</option><option value="US">US</option><option value="Worldwide">Worldwide</option></select>`);
+html = html.replace(/<select id="market" onchange="resetAndRender\(\)">[\s\S]*?<\/select>\s*<button onclick="exportCSV\(\)">Export CSV<\/button>/, `<select id="market" onchange="resetAndRender()"><option value="all" selected>All markets</option></select>`);
+html = html.replace(/<select id="market" onchange="resetAndRender\(\)">[\s\S]*?<\/select>/, `<select id="market" onchange="resetAndRender()"><option value="all" selected>All markets</option></select>`);
 html = html.replace(/<button onclick="exportCSV\(\)">Export CSV<\/button>/g, '');
 
 html = html.replace(/let usdToInr = 83\.5;\s*let fxIsLive = false;/, `const currencyRates = { USD: 1, INR: 83.5, EUR: 0.92, GBP: 0.78, CAD: 1.36, AUD: 1.52 };
@@ -66,4 +67,4 @@ html = html.replace(/const rate = Number\(data\?\.rates\?\.INR\);\s*if \(Number\
     fxIsLive = updated;`);
 
 fs.writeFileSync(file, html, 'utf8');
-console.log('Patched homepage UI: removed CSV export, kept All markets, added major currencies.');
+console.log('Patched homepage UI: removed CSV export, kept only All markets, added major currencies.');
