@@ -947,10 +947,10 @@ function slugify(value, max = 90) {
 }
 
 function productPageUrl(p) {
-  const id = String(first(p.id, p.pid, p.productId, p.sku, p.name, p.productName, "")).trim();
-  const name = first(p.name, p.productName, p.title, p.raw?.productName, id);
-  const slug = (`${slugify(name)}-${slugify(id, 24)}`).slice(0, 115).replace(/-+$/g, "");
-  return `/product/${slug}/`;
+  const id = String(first(p.id, p.pid, p.productId, p.sku, p.raw?.pid, p.raw?.productId, p.name, p.productName, "")).trim();
+  const name = cleanProductName(first(p.name, p.productName, p.title, p.raw?.productName, id));
+  const slug = (slugify(name, 80) + "-" + slugify(id, 24)).slice(0, 115).replace(/-+$/g, "");
+  return "/product/" + slug + "/";
 }
 
 function cleanProductName(value) {
