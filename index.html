@@ -682,6 +682,7 @@
 
 
 
+
 /* Quvirl GitHub homepage inspired upgrade */
 :root{--gh-bg:#010409;--gh-card:#0d1117;--gh-card2:#070b12;--gh-border:#30363d;--gh-text:#f0f6fc;--gh-muted:#8b949e;--gh-green:#2ea043;--gh-green2:#7ee787;--gh-blue:#58a6ff;--gh-purple:#bc8cff;--gh-violet:#8957e5}
 html{scroll-behavior:smooth}body{background:#010409!important;color:var(--gh-text)!important;overflow-x:hidden}
@@ -864,27 +865,34 @@ h1,h2,h3,.sectionTitle h2,.winningHead h2,
   line-height:1!important;
   text-shadow:none!important;
 }
-.brandQu,
-.brandText b .brandQu,
-.miniBrand .brandQu,
-.sideBrand .brandQu{
+.brandQu,.brandText b .brandQu,.miniBrand .brandQu,.sideBrand .brandQu{
   color:#ffffff!important;
   -webkit-text-fill-color:#ffffff!important;
 }
-.brandVirl,
-.brandText b .brandVirl,
-.miniBrand .brandVirl,
-.sideBrand .brandVirl{
+.brandVirl,.brandText b .brandVirl,.miniBrand .brandVirl,.sideBrand .brandVirl{
   color:#ff4fd8!important;
   -webkit-text-fill-color:#ff4fd8!important;
 }
-.brandText b{
+.brandLogo .brandText b,
+.hero .brandLogo .brandText b,
+.heroCard .brandLogo .brandText b{
   display:block!important;
-  font-size:44px!important;
+  font-size:72px!important;
   line-height:1!important;
-  letter-spacing:-1px!important;
+  letter-spacing:-2px!important;
   white-space:nowrap!important;
   text-shadow:none!important;
+  font-weight:950!important;
+}
+.brandLogo .brandText b .brandQu,
+.brandLogo .brandText b .brandVirl,
+.hero .brandLogo .brandText b .brandQu,
+.hero .brandLogo .brandText b .brandVirl,
+.heroCard .brandLogo .brandText b .brandQu,
+.heroCard .brandLogo .brandText b .brandVirl{
+  font-size:inherit!important;
+  line-height:inherit!important;
+  font-weight:inherit!important;
 }
 .miniBrand{
   font-size:22px!important;
@@ -897,7 +905,9 @@ h1,h2,h3,.sectionTitle h2,.winningHead h2,
   text-shadow:none!important;
 }
 @media(max-width:700px){
-  .brandText b{font-size:40px!important;line-height:1!important}
+  .brandLogo .brandText b,
+  .hero .brandLogo .brandText b,
+  .heroCard .brandLogo .brandText b{font-size:54px!important;line-height:1!important;letter-spacing:-1.5px!important}
   .miniBrand{font-size:22px!important}
 }
 
@@ -1750,6 +1760,7 @@ initProductBackgroundSlideshow();
 initProductBackgroundSlideshow();
 initProductBackgroundSlideshow();
 initProductBackgroundSlideshow();
+initProductBackgroundSlideshow();
 
 </script>
 
@@ -1827,6 +1838,7 @@ initProductBackgroundSlideshow();
   window.addEventListener('load', forceQuvirlBackground);
 })();
 </script>
+
 
 
 
