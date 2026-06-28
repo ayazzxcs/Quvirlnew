@@ -676,6 +676,7 @@
 
 
 
+
 /* Quvirl GitHub homepage inspired upgrade */
 :root{--gh-bg:#010409;--gh-card:#0d1117;--gh-card2:#070b12;--gh-border:#30363d;--gh-text:#f0f6fc;--gh-muted:#8b949e;--gh-green:#2ea043;--gh-green2:#7ee787;--gh-blue:#58a6ff;--gh-purple:#bc8cff;--gh-violet:#8957e5}
 html{scroll-behavior:smooth}body{background:#010409!important;color:var(--gh-text)!important;overflow-x:hidden}
@@ -776,6 +777,52 @@ button,.currencyBtn.active{background:linear-gradient(180deg,#238636,#1f6f30)!im
 }
 .brandText b{
   text-shadow:0 0 18px rgba(255,79,216,.35)!important;
+}
+
+
+/* Product card text contrast fix */
+.card .muted,
+.card .small,
+.card .title + .muted,
+.card .body > .muted,
+.card .row,
+.card .row span,
+.card .metric span,
+.card .m span,
+.card p,
+.card li,
+.card .reason,
+.card .why,
+.card .whyBox,
+.card .whyBox *{
+  color:#f0f6fc!important;
+  opacity:.92!important;
+}
+.card .metric,
+.card .m{
+  color:#f0f6fc!important;
+}
+.card .metric b,
+.card .m b,
+.card .title,
+.card b,
+.card strong{
+  color:#ffffff!important;
+  opacity:1!important;
+}
+.card .profit,
+.card .result,
+.card .scoreRing b{
+  color:#6ee7b7!important;
+}
+.card .money span,
+.card .metric span{
+  color:#dbeafe!important;
+}
+.card .pill,
+.card .winBadge,
+.card .visualChip{
+  color:#bfffe8!important;
 }
 
 </style>
@@ -1621,6 +1668,7 @@ initProductBackgroundSlideshow();
 initProductBackgroundSlideshow();
 initProductBackgroundSlideshow();
 initProductBackgroundSlideshow();
+initProductBackgroundSlideshow();
 
 </script>
 
@@ -1698,6 +1746,7 @@ initProductBackgroundSlideshow();
   window.addEventListener('load', forceQuvirlBackground);
 })();
 </script>
+
 
 
 
