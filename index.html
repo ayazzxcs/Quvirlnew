@@ -680,6 +680,7 @@
 
 
 
+
 /* Quvirl GitHub homepage inspired upgrade */
 :root{--gh-bg:#010409;--gh-card:#0d1117;--gh-card2:#070b12;--gh-border:#30363d;--gh-text:#f0f6fc;--gh-muted:#8b949e;--gh-green:#2ea043;--gh-green2:#7ee787;--gh-blue:#58a6ff;--gh-purple:#bc8cff;--gh-violet:#8957e5}
 html{scroll-behavior:smooth}body{background:#010409!important;color:var(--gh-text)!important;overflow-x:hidden}
@@ -781,7 +782,7 @@ button,.currencyBtn.active{background:linear-gradient(180deg,#238636,#1f6f30)!im
 .brandQu,.brandVirl{
   display:inline!important;
   white-space:nowrap!important;
-  line-height:inherit!important;
+  line-height:1!important;
 }
 .brandText b .brandQu,.brandText b .brandVirl,.miniBrand .brandQu,.miniBrand .brandVirl,.sideBrand .brandQu,.sideBrand .brandVirl{
   display:inline!important;
@@ -789,15 +790,34 @@ button,.currencyBtn.active{background:linear-gradient(180deg,#238636,#1f6f30)!im
 .brandQu{
   color:#ffffff!important;
   -webkit-text-fill-color:#ffffff!important;
+  text-shadow:none!important;
 }
 .brandVirl{
   color:#ff4fd8!important;
   -webkit-text-fill-color:#ff4fd8!important;
-  text-shadow:0 0 18px rgba(255,79,216,.38)!important;
+  text-shadow:none!important;
 }
 .brandText b{
-  text-shadow:none!important;
+  display:block!important;
+  font-size:34px!important;
+  line-height:1!important;
+  letter-spacing:-.8px!important;
   white-space:nowrap!important;
+  text-shadow:none!important;
+}
+.miniBrand{
+  font-size:20px!important;
+  line-height:1!important;
+  white-space:nowrap!important;
+  text-shadow:none!important;
+}
+.sideBrand{
+  white-space:nowrap!important;
+  text-shadow:none!important;
+}
+@media(max-width:700px){
+  .brandText b{font-size:32px!important;line-height:1!important}
+  .miniBrand{font-size:20px!important}
 }
 
 
@@ -1726,6 +1746,7 @@ initProductBackgroundSlideshow();
 initProductBackgroundSlideshow();
 initProductBackgroundSlideshow();
 initProductBackgroundSlideshow();
+initProductBackgroundSlideshow();
 
 </script>
 
@@ -1803,6 +1824,7 @@ initProductBackgroundSlideshow();
   window.addEventListener('load', forceQuvirlBackground);
 })();
 </script>
+
 
 
 
