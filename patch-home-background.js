@@ -4,13 +4,13 @@ let html = fs.readFileSync(file, 'utf8');
 
 const css = `/* Full-screen uploaded logistics background slideshow - visible no crop */
 .dynamicBg{position:fixed!important;inset:0!important;z-index:0!important;overflow:hidden!important;background:#010409!important;pointer-events:none!important;display:block!important}
-.dynamicBg .bgSlide{position:absolute!important;inset:0!important;background-size:contain!important;background-position:center!important;background-repeat:no-repeat!important;opacity:0;transform:translateX(100%) scale(.96);transition:transform 1.25s ease,opacity 1.25s ease;filter:blur(.7px) saturate(1.08) brightness(1.02)!important;display:block!important}
-.dynamicBg .bgSlide.active{opacity:.60!important;transform:translateX(0) scale(.96)!important}
-.dynamicBg .bgSlide.prev{opacity:0!important;transform:translateX(-100%) scale(.96)!important}
-.dynamicBg::after{content:""!important;position:absolute!important;inset:0!important;background:linear-gradient(180deg,rgba(1,4,9,.20),rgba(1,4,9,.42) 45%,rgba(1,4,9,.82))!important;pointer-events:none!important}
+.dynamicBg .bgSlide{position:absolute!important;inset:0!important;background-size:contain!important;background-position:center!important;background-repeat:no-repeat!important;opacity:0;transform:translateX(100%) scale(1);transition:transform 1.25s ease,opacity 1.25s ease;filter:saturate(1.08) brightness(1.04)!important;display:block!important;image-rendering:auto!important}
+.dynamicBg .bgSlide.active{opacity:.66!important;transform:translateX(0) scale(1)!important}
+.dynamicBg .bgSlide.prev{opacity:0!important;transform:translateX(-100%) scale(1)!important}
+.dynamicBg::after{content:""!important;position:absolute!important;inset:0!important;background:linear-gradient(180deg,rgba(1,4,9,.16),rgba(1,4,9,.36) 45%,rgba(1,4,9,.78))!important;pointer-events:none!important}
 .wrap{position:relative!important;z-index:2!important}
 .hero,.panel,.toolbar,.premiumTrending,.winningPanel,.topNav,.card{backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
-@media(max-width:600px){.dynamicBg .bgSlide{inset:0!important;background-size:92% auto!important;background-position:center top!important;filter:blur(.5px) saturate(1.06) brightness(1.02)!important}.dynamicBg .bgSlide.active{opacity:.58!important}}
+@media(max-width:600px){.dynamicBg .bgSlide{inset:0!important;background-size:94% auto!important;background-position:center top!important;filter:saturate(1.08) brightness(1.04)!important}.dynamicBg .bgSlide.active{opacity:.64!important}}
 @media (prefers-reduced-motion: reduce){.dynamicBg .bgSlide{transition:none}}`;
 
 html = html.replace(/\/\* Full-screen uploaded logistics background slideshow[\s\S]*?@media \(prefers-reduced-motion: reduce\)\{\.dynamicBg \.bgSlide\{transition:none\}\}/g, css);
