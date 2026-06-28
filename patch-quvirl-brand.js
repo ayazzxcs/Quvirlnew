@@ -33,8 +33,8 @@ html,body{width:100%!important;max-width:100%!important;overflow-x:hidden!import
 .brandText .brandWord{display:none!important}
 .badge,.navPill,.winBadge,.visualChip,.pill,.currencyBtn.active,button{background:rgba(46,160,67,.16)!important;border-color:rgba(126,231,135,.38)!important;color:#7ee787!important}
 button,.currencyBtn.active{background:linear-gradient(180deg,#238636,#1f6f30)!important;color:#fff!important}
-.signalPanel{grid-template-columns:1fr!important;max-width:680px!important}
-.signalPanel .signalCard:nth-child(2){display:none!important}
+.signalPanel{grid-template-columns:1fr 1fr!important;max-width:980px!important;gap:16px!important}
+.signalPanel .signalCard:nth-child(2){display:block!important}
 .signalCard span{color:#7ee787!important}
 .signalBar i{background:linear-gradient(90deg,#238636,#3fb950,#7ee787)!important;box-shadow:0 0 15px rgba(63,185,80,.55)!important}
 .scoreRing{background:conic-gradient(#7ee787 calc(var(--score)*1%),rgba(255,255,255,.10) 0)!important}
@@ -49,6 +49,7 @@ button,.currencyBtn.active{background:linear-gradient(180deg,#238636,#1f6f30)!im
   .lead{max-width:100%!important;font-size:14px!important}
   .stats{grid-template-columns:1fr!important;width:100%!important;max-width:100%!important}
   .currencyBox{justify-content:center!important;width:100%!important}
+  .signalPanel{grid-template-columns:1fr!important;width:100%!important;max-width:100%!important}
   .toolbar{grid-template-columns:1fr!important;width:100%!important;margin-left:0!important;margin-right:0!important}
   .premiumTrending,.winningPanel{width:100%!important;margin-left:0!important;margin-right:0!important}
   .trendLinks{grid-template-columns:1fr!important}
@@ -63,4 +64,4 @@ html = html.replace(/\/\* Quvirl blue-only brand cleanup \*\/[\s\S]*?(?=<\/style
 html = html.replace('</style>', css + '\n</style>');
 
 fs.writeFileSync(file, html, 'utf8');
-console.log('Applied Quvirl brand and mobile width fix. Background is controlled by patch-home-background.js.');
+console.log('Applied Quvirl brand, mobile width fix, and restored Product Intelligence box.');
