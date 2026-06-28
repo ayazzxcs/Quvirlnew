@@ -1,77 +1,100 @@
 const fs = require('fs');
-const file = 'index.html';
-let html = fs.readFileSync(file, 'utf8');
+const path = require('path');
 
-html = html.replace(/<div class="brandLogo">[\s\S]*?<\/div>\s*<\/div>\s*<div class="badge">/, `<div class="brandLogo">
+const ROOT = process.cwd();
+const SKIP_DIRS = new Set(['.git', 'node_modules']);
+const TEXT_EXTS = new Set(['.html', '.xml', '.txt', '.json']);
+
+function read(file) { return fs.readFileSync(file, 'utf8'); }
+function write(file, text) { fs.writeFileSync(file, text, 'utf8'); }
+
+function walk(dir, files = []) {
+  for (const entry of fs.readdirSync(dir, { withFileTypes: true })) {
+    if (SKIP_DIRS.has(entry.name)) continue;
+    const full = path.join(dir, entry.name);
+    if (entry.isDirectory()) walk(full, files);
+    else if (TEXT_EXTS.has(path.extname(entry.name).toLowerCase())) files.push(full);
+  }
+  return files;
+}
+
+function replaceBrandText(text) {
+  return text
+    .replace(/DropTrend v2/g, 'Quvirl')
+    .replace(/DropTrend Score/g, 'Quvirl Score')
+    .replace(/DropTrend score/g, 'Quvirl score')
+    .replace(/DropTrend scoring/g, 'Quvirl scoring')
+    .replace(/DropTrend Signal Engine/g, 'Quvirl Signal Engine')
+    .replace(/DropTrend guides/g, 'Quvirl guides')
+    .replace(/DropTrend/g, 'Quvirl')
+    .replace(/Droptrend/g, 'Quvirl')
+    .replace(/Drop trend/g, 'Quvirl')
+    .replace(/Drop\s*Trend/g, 'Quvirl')
+    .replace(/droptrend score/gi, 'Quvirl score')
+    .replace(/Drop<span class="brandWord">Trend<\/span>/g, 'Quvirl')
+    .replace(/<b>Drop<\/b>\s*<span[^>]*>Trend<\/span>/g, '<b>Quvirl</b>')
+    .replace(/<span>Drop<\/span>\s*<span[^>]*>Trend<\/span>/g, '<span>Quvirl</span>');
+}
+
+let changed = 0;
+for (const file of walk(ROOT)) {
+  let text = read(file);
+  const before = text;
+  text = replaceBrandText(text);
+  if (text !== before) { write(file, text); changed++; }
+}
+
+const home = path.join(ROOT, 'index.html');
+if (fs.existsSync(home)) {
+  let html = read(home);
+
+  html = html.replace(/<div class="brandLogo">[\s\S]*?<\/div>\s*<\/div>\s*<div class="badge">/, `<div class="brandLogo">
   <div class="brandMark" aria-hidden="true"><svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
 <rect width="64" height="64" rx="14" fill="#0C447C"/>
 <path d="M16 44 L30 30 L40 38 L52 18" stroke="#378ADD" stroke-width="6" fill="none" stroke-linecap="round" stroke-linejoin="round"/>
 <rect x="10" y="34" width="13" height="13" rx="3" fill="#B5D4F4"/>
 </svg></div>
-  <div class="brandText"><b>Quvirl</b><span>Discover Winning Products Before Everyone Else</span></div>
+  <div class="brandText"><b><span class="brandQu">Qu</span><span class="brandVirl">virl</span></b><span>Discover Winning Products Before Everyone Else</span></div>
 </div>
 
 <div class="badge">`);
 
-html = html
-  .replace(/DropTrend v2/g, 'Quvirl')
-  .replace(/DropTrend/g, 'Quvirl')
-  .replace(/Droptrend/g, 'Quvirl')
-  .replace(/Drop trend/g, 'Quvirl')
-  .replace(/Drop\s*Trend/g, 'Quvirl')
-  .replace(/Drop<span class="brandWord">Trend<\/span>/g, 'Quvirl')
-  .replace(/<b>Drop<\/b>\s*<span[^>]*>Trend<\/span>/g, '<b>Quvirl</b>')
-  .replace(/<span>Drop<\/span>\s*<span[^>]*>Trend<\/span>/g, '<span>Quvirl</span>');
+  html = html.replace(/<span class="brandQu">Qu<\/span><span class="brandVirl">virl<\/span>/g, 'Quvirl');
+  html = html.replace(/<b>Quvirl<\/b>/g, '<b><span class="brandQu">Qu</span><span class="brandVirl">virl</span></b>');
+  html = html.replace(/>Quvirl</g, '><span class="brandQu">Qu</span><span class="brandVirl">virl</span><');
 
-const css = `
-/* Quvirl brand: blue name, green theme, mobile layout fix */
+  const css = `
+/* Quvirl consolidated final styling */
+:root{--accent:#6ee7b7!important;--gh-green:#22c55e!important;--gh-green2:#6ee7b7!important;--muted:#ffffff!important;--gh-muted:#ffffff!important}
 html,body{width:100%!important;max-width:100%!important;overflow-x:hidden!important}
 .wrap{width:100%!important;max-width:1240px!important;margin-left:auto!important;margin-right:auto!important;box-sizing:border-box!important}
 .hero,.topNav,.toolbar,.premiumTrending,.winningPanel,.panel,.grid,.winnerGrid{max-width:100%!important;box-sizing:border-box!important}
-.brandTrend,.brandWord,.miniBrand span,.sideBrand span,.brandText b,.miniBrand,.sideBrand{color:#58a6ff!important}
-.brandText b{font-size:28px!important;letter-spacing:-.5px!important}
-.brandText .brandWord{display:none!important}
-.badge,.navPill,.winBadge,.visualChip,.pill,.currencyBtn.active,button{background:rgba(46,160,67,.16)!important;border-color:rgba(126,231,135,.38)!important;color:#7ee787!important}
-button,.currencyBtn.active{background:linear-gradient(180deg,#238636,#1f6f30)!important;color:#fff!important}
-.signalPanel{grid-template-columns:1fr 1fr!important;max-width:980px!important;gap:16px!important}
-.signalPanel .signalCard:nth-child(2){display:block!important}
-.signalCard span{color:#7ee787!important}
-.signalBar i{background:linear-gradient(90deg,#238636,#3fb950,#7ee787)!important;box-shadow:0 0 15px rgba(63,185,80,.55)!important}
-.scoreRing{background:conic-gradient(#7ee787 calc(var(--score)*1%),rgba(255,255,255,.10) 0)!important}
-.scoreRing b,.profit,.result{color:#7ee787!important}
-.hero::after{overflow:hidden!important;white-space:pre-wrap!important;word-break:break-word!important;max-width:calc(100vw - 40px)!important}
-.toolbar input,.toolbar select{min-width:0!important;width:100%!important}
-@media(max-width:700px){
-  .wrap{padding:14px!important;max-width:100%!important;overflow:hidden!important}
-  .topNav{width:100%!important;margin-left:0!important;margin-right:0!important}
-  .hero{text-align:center!important;padding-left:0!important;padding-right:0!important;overflow:hidden!important}
-  h1{max-width:100%!important;font-size:clamp(34px,9vw,48px)!important;line-height:1.02!important;letter-spacing:-1.5px!important}
-  .lead{max-width:100%!important;font-size:14px!important}
-  .stats{grid-template-columns:1fr!important;width:100%!important;max-width:100%!important}
-  .currencyBox{justify-content:center!important;width:100%!important}
-  .signalPanel{grid-template-columns:1fr 1fr!important;width:100%!important;max-width:100%!important;gap:10px!important}
-  .signalCard{padding:12px!important;min-width:0!important;overflow:hidden!important}
-  .signalCard b{font-size:14px!important;line-height:1.2!important}
-  .signalCard span{font-size:9px!important}
-  .signalCard p.small{font-size:9px!important;line-height:1.35!important}
-  .signalRow{grid-template-columns:46px 1fr 24px!important;gap:5px!important}
-  .signalRow>span:first-child{font-size:8px!important}
-  .signalRow>b{font-size:10px!important}
-  .signalBar{height:7px!important}
-  .visualChips{gap:5px!important}
-  .visualChip{font-size:8px!important;padding:5px 6px!important}
-  .toolbar{grid-template-columns:1fr!important;width:100%!important;margin-left:0!important;margin-right:0!important}
-  .premiumTrending,.winningPanel{width:100%!important;margin-left:0!important;margin-right:0!important}
-  .trendLinks{grid-template-columns:1fr!important}
-  .winnerGrid,.grid{grid-template-columns:1fr!important;width:100%!important}
-  .card{width:100%!important;max-width:100%!important}
-}
+.brandQu,.brandVirl,.brandText b .brandQu,.brandText b .brandVirl,.miniBrand .brandQu,.miniBrand .brandVirl,.sideBrand .brandQu,.sideBrand .brandVirl{display:inline!important;white-space:nowrap!important;line-height:1!important;text-shadow:none!important}
+.brandQu,.brandText b .brandQu,.miniBrand .brandQu,.sideBrand .brandQu{color:#ffffff!important;-webkit-text-fill-color:#ffffff!important}
+.brandVirl,.brandText b .brandVirl,.miniBrand .brandVirl,.sideBrand .brandVirl{color:#ff4fd8!important;-webkit-text-fill-color:#ff4fd8!important;text-shadow:none!important}
+.brandLogo .brandText b,.hero .brandLogo .brandText b,.heroCard .brandLogo .brandText b{display:block!important;font-size:72px!important;line-height:1!important;letter-spacing:-2px!important;white-space:nowrap!important;text-shadow:none!important;font-weight:950!important}
+.brandLogo .brandText b .brandQu,.brandLogo .brandText b .brandVirl,.hero .brandLogo .brandText b .brandQu,.hero .brandLogo .brandText b .brandVirl,.heroCard .brandLogo .brandText b .brandQu,.heroCard .brandLogo .brandText b .brandVirl{font-size:inherit!important;line-height:inherit!important;font-weight:inherit!important}
+.miniBrand{font-size:22px!important;line-height:1!important;white-space:nowrap!important;text-shadow:none!important}.sideBrand{white-space:nowrap!important;text-shadow:none!important}
+.badge,.navPill,.winBadge,.visualChip,.pill{background:rgba(110,231,183,.14)!important;border-color:rgba(110,231,183,.34)!important;color:#ffffff!important;-webkit-text-fill-color:#ffffff!important}
+.currencyBtn.active,button{background:linear-gradient(135deg,#22c55e,#14b8a6)!important;border-color:rgba(110,231,183,.45)!important;color:#04110c!important}
+.signalPanel{grid-template-columns:1fr 1fr!important;max-width:980px!important;gap:16px!important}.signalPanel .signalCard:nth-child(2){display:block!important}.signalCard span{color:#6ee7b7!important}.signalBar i{background:linear-gradient(90deg,#22c55e,#14b8a6,#6ee7b7)!important;box-shadow:0 0 16px rgba(110,231,183,.48)!important}.scoreRing{background:conic-gradient(#6ee7b7 calc(var(--score)*1%),rgba(255,255,255,.10) 0)!important}.scoreRing b,.profit,.result{color:#6ee7b7!important;-webkit-text-fill-color:#6ee7b7!important}
+.card,.grid .card,.winnerGrid .card,.motion-ready .card,.motion-ready .dt-in.card{opacity:1!important;visibility:visible!important;transform:none!important;animation:none!important}.card::after{display:none!important;animation:none!important}.card:hover{transform:translateY(-3px)!important}.img img{opacity:1!important;visibility:visible!important}.grid,.winnerGrid{min-height:0!important;overflow:visible!important}.premiumTrending,.winningPanel{overflow:visible!important}
+.muted,.small,.rateText,.lead,.premiumTrending p,.winningHead p,.card .muted,.card .small,.card p,.card span,.metric span,.m span,.stat span,.signalRow>span:first-child,.signalRow>span:last-child,.trendLink small,.siteChip small,.menuItem span,.chev,.menuSubTitle,.footer,.footer *,.table th,.table td,.brandText span,.sectionTitle p,.winningPanel p,.visualSummary span,.money span,.row span,.productMeta,.productMeta *{color:#ffffff!important;-webkit-text-fill-color:#ffffff!important;opacity:.96!important}.card .title,.card b,.card strong,h1,h2,h3,.sectionTitle h2,.winningHead h2,.signalCard b,.stat b,.m b,.metric b{color:#ffffff!important;-webkit-text-fill-color:#ffffff!important;opacity:1!important}.pill,.visualChip,.winBadge,.navPill,.badge{color:#ffffff!important;-webkit-text-fill-color:#ffffff!important}
+.hero::after{overflow:hidden!important;white-space:pre-wrap!important;word-break:break-word!important;max-width:calc(100vw - 40px)!important}.toolbar input,.toolbar select{min-width:0!important;width:100%!important}
+@media(max-width:700px){.wrap{padding:14px!important;max-width:100%!important;overflow:hidden!important}.topNav{width:100%!important;margin-left:0!important;margin-right:0!important}.hero{text-align:center!important;padding-left:0!important;padding-right:0!important;overflow:hidden!important}h1{max-width:100%!important;font-size:clamp(34px,9vw,48px)!important;line-height:1.02!important;letter-spacing:-1.5px!important}.lead{max-width:100%!important;font-size:14px!important}.stats{grid-template-columns:1fr!important;width:100%!important;max-width:100%!important}.currencyBox{justify-content:center!important;width:100%!important}.signalPanel{grid-template-columns:1fr 1fr!important;width:100%!important;max-width:100%!important;gap:10px!important}.signalCard{padding:12px!important;min-width:0!important;overflow:hidden!important}.signalCard b{font-size:14px!important;line-height:1.2!important}.signalCard span{font-size:9px!important}.signalCard p.small{font-size:9px!important;line-height:1.35!important}.signalRow{grid-template-columns:46px 1fr 24px!important;gap:5px!important}.signalRow>span:first-child{font-size:8px!important}.signalRow>b{font-size:10px!important}.signalBar{height:7px!important}.visualChips{gap:5px!important}.visualChip{font-size:8px!important;padding:5px 6px!important}.toolbar{grid-template-columns:1fr!important;width:100%!important;margin-left:0!important;margin-right:0!important}.premiumTrending,.winningPanel{width:100%!important;margin-left:0!important;margin-right:0!important}.trendLinks{grid-template-columns:1fr!important}.winnerGrid,.grid{grid-template-columns:1fr!important;width:100%!important}.card{width:100%!important;max-width:100%!important}.card:hover{transform:none!important}.brandLogo .brandText b,.hero .brandLogo .brandText b,.heroCard .brandLogo .brandText b{font-size:54px!important;line-height:1!important;letter-spacing:-1.5px!important}.miniBrand{font-size:22px!important}}
 `;
 
-html = html.replace(/\/\* Quvirl brand:[\s\S]*?(?=<\/style>)/g, '');
-html = html.replace(/\/\* Quvirl brand cleanup:[\s\S]*?(?=<\/style>)/g, '');
-html = html.replace(/\/\* Quvirl blue-only brand cleanup \*\/[\s\S]*?(?=<\/style>)/g, '');
-html = html.replace('</style>', css + '\n</style>');
+  html = html.replace(/\/\* Quvirl consolidated final styling \*\/[\s\S]*?(?=<\/style>)/g, '');
+  html = html.replace(/\/\* Quvirl brand:[\s\S]*?(?=<\/style>)/g, '');
+  html = html.replace(/\/\* Quvirl brand cleanup:[\s\S]*?(?=<\/style>)/g, '');
+  html = html.replace(/\/\* Quvirl blue-only brand cleanup \*\/[\s\S]*?(?=<\/style>)/g, '');
+  html = html.replace(/\/\* Old mint green theme override \*\/[\s\S]*?(?=<\/style>)/g, '');
+  html = html.replace(/\/\* Product card animation fix: show cards immediately \*\/[\s\S]*?(?=<\/style>)/g, '');
+  html = html.replace(/\/\* Product card text contrast fix \*\/[\s\S]*?(?=<\/style>)/g, '');
+  html = html.replace(/\/\* Remove grey text across site \*\/[\s\S]*?(?=<\/style>)/g, '');
+  html = html.replace(/\/\* Quvirl split brand name[^*]*\*\/[\s\S]*?(?=<\/style>)/g, '');
+  html = html.replace('</style>', css + '\n</style>');
+  write(home, html);
+}
 
-fs.writeFileSync(file, html, 'utf8');
-console.log('Applied Quvirl brand, mobile width fix, and side-by-side Product Intelligence box.');
+console.log(`Applied consolidated Quvirl branding. Text-updated files: ${changed}.`);
