@@ -24,7 +24,10 @@ html = html
   .replace(/<span>Drop<\/span>\s*<span[^>]*>Trend<\/span>/g, '<span>Quvirl</span>');
 
 const css = `
-/* Quvirl brand: blue name, green theme, no background override */
+/* Quvirl brand: blue name, green theme, mobile layout fix */
+html,body{width:100%!important;max-width:100%!important;overflow-x:hidden!important}
+.wrap{width:100%!important;max-width:1240px!important;margin-left:auto!important;margin-right:auto!important;box-sizing:border-box!important}
+.hero,.topNav,.toolbar,.premiumTrending,.winningPanel,.panel,.grid,.winnerGrid{max-width:100%!important;box-sizing:border-box!important}
 .brandTrend,.brandWord,.miniBrand span,.sideBrand span,.brandText b,.miniBrand,.sideBrand{color:#58a6ff!important}
 .brandText b{font-size:28px!important;letter-spacing:-.5px!important}
 .brandText .brandWord{display:none!important}
@@ -36,6 +39,22 @@ button,.currencyBtn.active{background:linear-gradient(180deg,#238636,#1f6f30)!im
 .signalBar i{background:linear-gradient(90deg,#238636,#3fb950,#7ee787)!important;box-shadow:0 0 15px rgba(63,185,80,.55)!important}
 .scoreRing{background:conic-gradient(#7ee787 calc(var(--score)*1%),rgba(255,255,255,.10) 0)!important}
 .scoreRing b,.profit,.result{color:#7ee787!important}
+.hero::after{overflow:hidden!important;white-space:pre-wrap!important;word-break:break-word!important;max-width:calc(100vw - 40px)!important}
+.toolbar input,.toolbar select{min-width:0!important;width:100%!important}
+@media(max-width:700px){
+  .wrap{padding:14px!important;max-width:100%!important;overflow:hidden!important}
+  .topNav{width:100%!important;margin-left:0!important;margin-right:0!important}
+  .hero{text-align:center!important;padding-left:0!important;padding-right:0!important;overflow:hidden!important}
+  h1{max-width:100%!important;font-size:clamp(34px,9vw,48px)!important;line-height:1.02!important;letter-spacing:-1.5px!important}
+  .lead{max-width:100%!important;font-size:14px!important}
+  .stats{grid-template-columns:1fr!important;width:100%!important;max-width:100%!important}
+  .currencyBox{justify-content:center!important;width:100%!important}
+  .toolbar{grid-template-columns:1fr!important;width:100%!important;margin-left:0!important;margin-right:0!important}
+  .premiumTrending,.winningPanel{width:100%!important;margin-left:0!important;margin-right:0!important}
+  .trendLinks{grid-template-columns:1fr!important}
+  .winnerGrid,.grid{grid-template-columns:1fr!important;width:100%!important}
+  .card{width:100%!important;max-width:100%!important}
+}
 `;
 
 html = html.replace(/\/\* Quvirl brand:[\s\S]*?(?=<\/style>)/g, '');
@@ -44,4 +63,4 @@ html = html.replace(/\/\* Quvirl blue-only brand cleanup \*\/[\s\S]*?(?=<\/style
 html = html.replace('</style>', css + '\n</style>');
 
 fs.writeFileSync(file, html, 'utf8');
-console.log('Applied Quvirl brand only. Background is controlled by patch-home-background.js.');
+console.log('Applied Quvirl brand and mobile width fix. Background is controlled by patch-home-background.js.');
