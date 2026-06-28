@@ -56,41 +56,17 @@ jobs:
         run: |
           node patch-home-ui.js
 
-      - name: Apply Quvirl branding
+      - name: Apply Quvirl branding and final fixes
         run: |
           node patch-quvirl-brand.js
 
-      - name: Patch homepage product background last
+      - name: Patch homepage product background
         run: |
           node patch-home-background.js
 
       - name: Patch product card links
         run: |
           node patch-product-links.js
-
-      - name: Apply old mint green theme
-        run: |
-          node patch-old-green-theme.js
-
-      - name: Fix product card animation
-        run: |
-          node patch-product-animation-fix.js
-
-      - name: Fix product card text contrast
-        run: |
-          node patch-card-text-contrast.js
-
-      - name: Remove grey text site-wide
-        run: |
-          node patch-remove-grey-text.js
-
-      - name: Replace DropTrend globally
-        run: |
-          node patch-global-brand-replace.js
-
-      - name: Apply final split brand name
-        run: |
-          node patch-pink-brand-name.js
 
       - name: Commit generated pages
         run: |
