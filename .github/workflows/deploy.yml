@@ -76,10 +76,6 @@ jobs:
         run: |
           node patch-product-animation-fix.js
 
-      - name: Apply pink brand name
-        run: |
-          node patch-pink-brand-name.js
-
       - name: Fix product card text contrast
         run: |
           node patch-card-text-contrast.js
@@ -87,6 +83,10 @@ jobs:
       - name: Remove grey text site-wide
         run: |
           node patch-remove-grey-text.js
+
+      - name: Apply final split brand name
+        run: |
+          node patch-pink-brand-name.js
 
       - name: Commit generated pages
         run: |
