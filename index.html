@@ -602,13 +602,13 @@
 
 /* Full-screen uploaded logistics background slideshow - visible no crop */
 .dynamicBg{position:fixed!important;inset:0!important;z-index:0!important;overflow:hidden!important;background:#010409!important;pointer-events:none!important;display:block!important}
-.dynamicBg .bgSlide{position:absolute!important;inset:0!important;background-size:contain!important;background-position:center!important;background-repeat:no-repeat!important;opacity:0;transform:translateX(100%) scale(.96);transition:transform 1.25s ease,opacity 1.25s ease;filter:blur(.7px) saturate(1.08) brightness(1.02)!important;display:block!important}
-.dynamicBg .bgSlide.active{opacity:.60!important;transform:translateX(0) scale(.96)!important}
-.dynamicBg .bgSlide.prev{opacity:0!important;transform:translateX(-100%) scale(.96)!important}
-.dynamicBg::after{content:""!important;position:absolute!important;inset:0!important;background:linear-gradient(180deg,rgba(1,4,9,.20),rgba(1,4,9,.42) 45%,rgba(1,4,9,.82))!important;pointer-events:none!important}
+.dynamicBg .bgSlide{position:absolute!important;inset:0!important;background-size:contain!important;background-position:center!important;background-repeat:no-repeat!important;opacity:0;transform:translateX(100%) scale(1);transition:transform 1.25s ease,opacity 1.25s ease;filter:saturate(1.08) brightness(1.04)!important;display:block!important;image-rendering:auto!important}
+.dynamicBg .bgSlide.active{opacity:.66!important;transform:translateX(0) scale(1)!important}
+.dynamicBg .bgSlide.prev{opacity:0!important;transform:translateX(-100%) scale(1)!important}
+.dynamicBg::after{content:""!important;position:absolute!important;inset:0!important;background:linear-gradient(180deg,rgba(1,4,9,.16),rgba(1,4,9,.36) 45%,rgba(1,4,9,.78))!important;pointer-events:none!important}
 .wrap{position:relative!important;z-index:2!important}
 .hero,.panel,.toolbar,.premiumTrending,.winningPanel,.topNav,.card{backdrop-filter:none!important;-webkit-backdrop-filter:none!important}
-@media(max-width:600px){.dynamicBg .bgSlide{inset:0!important;background-size:92% auto!important;background-position:center top!important;filter:blur(.5px) saturate(1.06) brightness(1.02)!important}.dynamicBg .bgSlide.active{opacity:.58!important}}
+@media(max-width:600px){.dynamicBg .bgSlide{inset:0!important;background-size:94% auto!important;background-position:center top!important;filter:saturate(1.08) brightness(1.04)!important}.dynamicBg .bgSlide.active{opacity:.64!important}}
 @media (prefers-reduced-motion: reduce){.dynamicBg .bgSlide{transition:none}}
 
 
@@ -666,6 +666,7 @@
 
 
 
+
 /* Quvirl GitHub homepage inspired upgrade */
 :root{--gh-bg:#010409;--gh-card:#0d1117;--gh-card2:#070b12;--gh-border:#30363d;--gh-text:#f0f6fc;--gh-muted:#8b949e;--gh-green:#2ea043;--gh-green2:#7ee787;--gh-blue:#58a6ff;--gh-purple:#bc8cff;--gh-violet:#8957e5}
 html{scroll-behavior:smooth}body{background:#010409!important;color:var(--gh-text)!important;overflow-x:hidden}
@@ -688,7 +689,10 @@ input,select,button,.currencyBtn{background:#0d1117!important;border:1px solid #
 @media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}.wrap::after,.hero::before,.hero::after,.motion-ready .topNav,.motion-ready .hero,.motion-ready .premiumTrending,.motion-ready .winningPanel,.motion-ready .sectionTitle,.motion-ready .panel,.motion-ready .dt-in,.signalBar i{animation:none!important}.motion-ready .stat,.motion-ready .trendLink,.motion-ready .signalCard,.motion-ready .card{opacity:1!important;transform:none!important}}
 
 
-/* Quvirl brand: blue name, green theme, no background override */
+/* Quvirl brand: blue name, green theme, mobile layout fix */
+html,body{width:100%!important;max-width:100%!important;overflow-x:hidden!important}
+.wrap{width:100%!important;max-width:1240px!important;margin-left:auto!important;margin-right:auto!important;box-sizing:border-box!important}
+.hero,.topNav,.toolbar,.premiumTrending,.winningPanel,.panel,.grid,.winnerGrid{max-width:100%!important;box-sizing:border-box!important}
 .brandTrend,.brandWord,.miniBrand span,.sideBrand span,.brandText b,.miniBrand,.sideBrand{color:#58a6ff!important}
 .brandText b{font-size:28px!important;letter-spacing:-.5px!important}
 .brandText .brandWord{display:none!important}
@@ -700,6 +704,22 @@ button,.currencyBtn.active{background:linear-gradient(180deg,#238636,#1f6f30)!im
 .signalBar i{background:linear-gradient(90deg,#238636,#3fb950,#7ee787)!important;box-shadow:0 0 15px rgba(63,185,80,.55)!important}
 .scoreRing{background:conic-gradient(#7ee787 calc(var(--score)*1%),rgba(255,255,255,.10) 0)!important}
 .scoreRing b,.profit,.result{color:#7ee787!important}
+.hero::after{overflow:hidden!important;white-space:pre-wrap!important;word-break:break-word!important;max-width:calc(100vw - 40px)!important}
+.toolbar input,.toolbar select{min-width:0!important;width:100%!important}
+@media(max-width:700px){
+  .wrap{padding:14px!important;max-width:100%!important;overflow:hidden!important}
+  .topNav{width:100%!important;margin-left:0!important;margin-right:0!important}
+  .hero{text-align:center!important;padding-left:0!important;padding-right:0!important;overflow:hidden!important}
+  h1{max-width:100%!important;font-size:clamp(34px,9vw,48px)!important;line-height:1.02!important;letter-spacing:-1.5px!important}
+  .lead{max-width:100%!important;font-size:14px!important}
+  .stats{grid-template-columns:1fr!important;width:100%!important;max-width:100%!important}
+  .currencyBox{justify-content:center!important;width:100%!important}
+  .toolbar{grid-template-columns:1fr!important;width:100%!important;margin-left:0!important;margin-right:0!important}
+  .premiumTrending,.winningPanel{width:100%!important;margin-left:0!important;margin-right:0!important}
+  .trendLinks{grid-template-columns:1fr!important}
+  .winnerGrid,.grid{grid-template-columns:1fr!important;width:100%!important}
+  .card{width:100%!important;max-width:100%!important}
+}
 
 </style>
     }
@@ -1535,6 +1555,7 @@ initProductBackgroundSlideshow();
 initProductBackgroundSlideshow();
 initProductBackgroundSlideshow();
 initProductBackgroundSlideshow();
+initProductBackgroundSlideshow();
 
 </script>
 
@@ -1612,6 +1633,7 @@ initProductBackgroundSlideshow();
   window.addEventListener('load', forceQuvirlBackground);
 })();
 </script>
+
 
 
 
