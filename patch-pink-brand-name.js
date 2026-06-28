@@ -15,7 +15,7 @@ const css = `
 .brandQu,.brandVirl{
   display:inline!important;
   white-space:nowrap!important;
-  line-height:inherit!important;
+  line-height:1!important;
 }
 .brandText b .brandQu,.brandText b .brandVirl,.miniBrand .brandQu,.miniBrand .brandVirl,.sideBrand .brandQu,.sideBrand .brandVirl{
   display:inline!important;
@@ -23,15 +23,34 @@ const css = `
 .brandQu{
   color:#ffffff!important;
   -webkit-text-fill-color:#ffffff!important;
+  text-shadow:none!important;
 }
 .brandVirl{
   color:#ff4fd8!important;
   -webkit-text-fill-color:#ff4fd8!important;
-  text-shadow:0 0 18px rgba(255,79,216,.38)!important;
+  text-shadow:none!important;
 }
 .brandText b{
-  text-shadow:none!important;
+  display:block!important;
+  font-size:34px!important;
+  line-height:1!important;
+  letter-spacing:-.8px!important;
   white-space:nowrap!important;
+  text-shadow:none!important;
+}
+.miniBrand{
+  font-size:20px!important;
+  line-height:1!important;
+  white-space:nowrap!important;
+  text-shadow:none!important;
+}
+.sideBrand{
+  white-space:nowrap!important;
+  text-shadow:none!important;
+}
+@media(max-width:700px){
+  .brandText b{font-size:32px!important;line-height:1!important}
+  .miniBrand{font-size:20px!important}
 }
 `;
 
@@ -40,4 +59,4 @@ html = html.replace(/\/\* Quvirl split brand name: Qu white, virl pink \*\/[\s\S
 html = html.replace('</style>', css + '\n</style>');
 
 fs.writeFileSync(file, html, 'utf8');
-console.log('Applied split Quvirl brand name: Qu white, virl pink, inline fixed.');
+console.log('Applied split Quvirl brand name: Qu white, virl pink, no glow, larger hero brand.');
