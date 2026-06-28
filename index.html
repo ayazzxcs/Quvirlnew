@@ -655,6 +655,46 @@
           flex-basis:52px!important;
 
            }
+
+/* DropTrend premium motion upgrade */
+html{scroll-behavior:smooth}
+.motion-ready .topNav,
+.motion-ready .hero,
+.motion-ready .premiumTrending,
+.motion-ready .winningPanel,
+.motion-ready .sectionTitle,
+.motion-ready .panel{animation:dtFadeUp .7s cubic-bezier(.22,1,.36,1) both}
+.motion-ready .topNav{animation-delay:.04s}
+.motion-ready .hero{animation-delay:.10s}
+.motion-ready .premiumTrending{animation-delay:.16s}
+.motion-ready .winningPanel{animation-delay:.22s}
+.motion-ready .stat,.motion-ready .trendLink,.motion-ready .signalCard,.motion-ready .card{opacity:0;transform:translateY(18px) scale(.98)}
+.motion-ready .dt-in{animation:dtFadeUp .62s cubic-bezier(.22,1,.36,1) forwards}
+.card{will-change:transform,box-shadow,border-color}
+.card::after,.trendLink::after,.premiumTrending::after,.winningPanel::after{content:"";position:absolute;inset:0;background:linear-gradient(115deg,transparent 0%,rgba(255,255,255,.12) 45%,transparent 60%);transform:translateX(-120%);opacity:0;pointer-events:none}
+.card:hover::after,.trendLink:hover::after,.premiumTrending:hover::after,.winningPanel:hover::after{animation:dtShine .8s ease both;opacity:1}
+.card:hover{transform:translateY(-7px) scale(1.012);box-shadow:0 22px 55px rgba(0,0,0,.34);border-color:rgba(110,231,183,.52)}
+.img img{transition:transform .75s ease,filter .75s ease}
+.card:hover .img img{transform:scale(1.07);filter:saturate(1.1) contrast(1.05)}
+.score,.winBadge,.navPill{animation:dtSoftPulse 2.8s ease-in-out infinite}
+button,.currencyBtn,.siteChip,.menuItem{transition:transform .2s ease,filter .2s ease,background .2s ease,border-color .2s ease}
+button:hover,.currencyBtn:hover,.siteChip:hover,.menuItem:hover{transform:translateY(-2px);filter:brightness(1.06)}
+.scoreRing{animation:dtRingPulse 2.6s ease-in-out infinite}
+.sideMenu{transition:transform .32s cubic-bezier(.22,1,.36,1)!important}
+.menuItem{opacity:0;transform:translateX(-14px)}
+#menuToggle:checked ~ .sideMenu .menuItem{animation:dtMenuSlide .42s ease forwards}
+#menuToggle:checked ~ .sideMenu .menuItem:nth-child(1){animation-delay:.04s}
+#menuToggle:checked ~ .sideMenu .menuItem:nth-child(2){animation-delay:.08s}
+#menuToggle:checked ~ .sideMenu .menuItem:nth-child(3){animation-delay:.12s}
+#menuToggle:checked ~ .sideMenu .menuItem:nth-child(4){animation-delay:.16s}
+@keyframes dtFadeUp{from{opacity:0;transform:translateY(22px) scale(.985)}to{opacity:1;transform:translateY(0) scale(1)}}
+@keyframes dtShine{from{transform:translateX(-120%)}to{transform:translateX(120%)}}
+@keyframes dtSoftPulse{0%,100%{box-shadow:0 0 0 rgba(110,231,183,0)}50%{box-shadow:0 0 22px rgba(110,231,183,.18)}}
+@keyframes dtRingPulse{0%,100%{transform:scale(1)}50%{transform:scale(1.045)}}
+@keyframes dtMenuSlide{to{opacity:1;transform:translateX(0)}}
+@media(max-width:600px){.card:hover{transform:translateY(-3px) scale(1.004)}.motion-ready .card{transform:translateY(12px) scale(.99)}}
+@media (prefers-reduced-motion: reduce){html{scroll-behavior:auto}.motion-ready .topNav,.motion-ready .hero,.motion-ready .premiumTrending,.motion-ready .winningPanel,.motion-ready .sectionTitle,.motion-ready .panel,.motion-ready .dt-in,.score,.winBadge,.navPill,.scoreRing,#menuToggle:checked ~ .sideMenu .menuItem{animation:none!important}.motion-ready .stat,.motion-ready .trendLink,.motion-ready .signalCard,.motion-ready .card,.menuItem{opacity:1!important;transform:none!important}.card:hover,.card:hover .img img,button:hover,.currencyBtn:hover,.siteChip:hover,.menuItem:hover{transform:none!important}}
+
 </style>
     }
 
@@ -1525,6 +1565,42 @@ autoLoadProducts();
     const banner = document.getElementById('dtDisclaimer');
     if (banner && !localStorage.getItem(key)) banner.style.display = 'block';
   });
+})();
+</script>
+
+<script>
+(function(){
+  function initDropTrendMotion(){
+    if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+    document.documentElement.classList.add('motion-ready');
+    const targets = '.stat,.trendLink,.signalCard,.card,.sectionTitle,.panel';
+    const reveal = (el, index) => {
+      if (el.dataset.dtMotion) return;
+      el.dataset.dtMotion = '1';
+      el.style.animationDelay = Math.min(index * 45, 360) + 'ms';
+      el.classList.add('dt-in');
+    };
+    if ('IntersectionObserver' in window) {
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const items = Array.from(document.querySelectorAll(targets));
+            reveal(entry.target, items.indexOf(entry.target));
+            observer.unobserve(entry.target);
+          }
+        });
+      }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
+      document.querySelectorAll(targets).forEach(el => observer.observe(el));
+      const mo = new MutationObserver(() => document.querySelectorAll(targets).forEach(el => {
+        if (!el.dataset.dtMotion) observer.observe(el);
+      }));
+      mo.observe(document.body, { childList: true, subtree: true });
+    } else {
+      document.querySelectorAll(targets).forEach(reveal);
+    }
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', initDropTrendMotion);
+  else initDropTrendMotion();
 })();
 </script>
 </body>
