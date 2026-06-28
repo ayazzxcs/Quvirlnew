@@ -4,7 +4,7 @@ let html = fs.readFileSync(file, 'utf8');
 
 // Split visible Quvirl brand into Qu + virl where possible.
 html = html.replace(/<b>Quvirl<\/b>/g, '<b><span class="brandQu">Qu</span><span class="brandVirl">virl</span></b>');
-html = html.replace(/>(Quvirl)<\/g, '><span class="brandQu">Qu</span><span class="brandVirl">virl</span><');
+html = html.replace(/>Quvirl</g, '><span class="brandQu">Qu</span><span class="brandVirl">virl</span><');
 
 const css = `
 /* Quvirl split brand name: Qu white, virl pink */
