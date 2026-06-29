@@ -4,13 +4,13 @@ let html = fs.readFileSync(file, 'utf8');
 
 const hub = `<section class="quvirlSignalHub" aria-label="Quvirl signal hub">
   <div class="hubDetails">
-    <span>Real market signal stack</span>
-    <h2>See why a product is worth testing before spending money.</h2>
-    <p>Quvirl connects three practical signals: search interest from Google Trends, buyer demand from Amazon, and supplier availability from CJdropshipping.</p>
+    <span>Quvirl overview</span>
+    <h2>A dropshipping research hub built around real market signals.</h2>
+    <p>Quvirl helps sellers discover, compare and shortlist trending product ideas using connected demand, marketplace and supplier signals in one dashboard.</p>
     <div class="hubDetailList">
-      <b>Google Trends</b><small>Checks demand direction and search momentum.</small>
-      <b>Amazon Demand</b><small>Uses reviews, rating and demand signals.</small>
-      <b>CJ Supplier</b><small>Checks product source, price and supply readiness.</small>
+      <b>Market discovery</b><small>Find product ideas using search trend direction and demand signals.</small>
+      <b>Supplier context</b><small>Compare availability, source pricing and CJdropshipping readiness.</small>
+      <b>Decision support</b><small>Use scoring, margins and product pages to decide what is worth testing.</small>
     </div>
   </div>
   <div class="hubMap" aria-hidden="true">
@@ -39,39 +39,39 @@ const css = `
 .quvirlSignalHub .hubCore{left:44%!important;top:54%!important;transform:translate(-50%,-50%)!important;width:160px!important;height:104px!important;border-radius:22px!important}
 .quvirlSignalHub .hubCore b{font-size:28px!important}
 .quvirlSignalHub .hubCore small{font-size:12px!important}
-.quvirlSignalHub .hubNode{width:106px!important;min-height:66px!important;border-radius:18px!important;font-size:13px!important;line-height:1.1!important}
+.quvirlSignalHub .hubNode{width:108px!important;min-height:66px!important;border-radius:18px!important;font-size:13px!important;line-height:1.1!important}
 .quvirlSignalHub .hubNode small{font-size:10px!important}
-.quvirlSignalHub .nGoogle{left:2%!important;top:43%!important;transform:none!important}
-.quvirlSignalHub .nAmazon{right:3%!important;top:29%!important;transform:none!important}
-.quvirlSignalHub .nCJ{right:3%!important;top:62%!important;transform:none!important}
-.quvirlSignalHub .nGoogle::after{right:-20px!important;left:auto!important;top:50%!important;bottom:auto!important}
-.quvirlSignalHub .nAmazon::after,.quvirlSignalHub .nCJ::after{left:-20px!important;right:auto!important;top:50%!important;bottom:auto!important}
+.quvirlSignalHub .nGoogle{left:0!important;top:43%!important;transform:none!important}
+.quvirlSignalHub .nAmazon{right:0!important;top:25%!important;transform:none!important}
+.quvirlSignalHub .nCJ{right:0!important;top:67%!important;transform:none!important}
+.quvirlSignalHub .nGoogle::after{right:-22px!important;left:auto!important;top:50%!important;bottom:auto!important}
+.quvirlSignalHub .nAmazon::after,.quvirlSignalHub .nCJ::after{left:-22px!important;right:auto!important;top:50%!important;bottom:auto!important}
 .quvirlSignalHub .hubWire{left:44%!important;top:54%!important;transform-origin:left center!important}
-.quvirlSignalHub .wGoogle{width:150px!important;transform:rotate(180deg)!important}
-.quvirlSignalHub .wAmazon{width:168px!important;transform:rotate(-29deg)!important}
-.quvirlSignalHub .wCJ{width:170px!important;transform:rotate(31deg)!important}
+.quvirlSignalHub .wGoogle{width:180px!important;transform:rotate(180deg)!important}
+.quvirlSignalHub .wAmazon{width:205px!important;transform:rotate(-31deg)!important}
+.quvirlSignalHub .wCJ{width:205px!important;transform:rotate(32deg)!important}
 @media(max-width:700px){
   .quvirlSignalHub{grid-template-columns:1fr!important;gap:8px!important;padding:16px 8px!important;margin-top:20px!important;border-radius:24px!important;min-height:auto!important}
   .quvirlSignalHub .hubDetails{order:1!important;text-align:left!important;padding:8px 10px!important}
-  .quvirlSignalHub .hubMap{order:2!important;height:300px!important;min-height:300px!important}
+  .quvirlSignalHub .hubMap{order:2!important;height:310px!important;min-height:310px!important}
   .quvirlSignalHub .hubDetails h2{font-size:24px!important;letter-spacing:-.8px!important}
   .quvirlSignalHub .hubDetails p{font-size:13px!important;line-height:1.45!important}
   .quvirlSignalHub .hubDetailList{grid-template-columns:1fr!important;background:rgba(255,255,255,.04)!important;border:1px solid rgba(110,231,183,.18)!important;border-radius:18px!important;padding:10px!important}
-  .quvirlSignalHub .hubCore{left:42%!important;top:52%!important;width:132px!important;height:90px!important;border-radius:20px!important}
-  .quvirlSignalHub .hubCore b{font-size:25px!important}
+  .quvirlSignalHub .hubCore{left:42%!important;top:52%!important;width:126px!important;height:86px!important;border-radius:20px!important}
+  .quvirlSignalHub .hubCore b{font-size:24px!important}
   .quvirlSignalHub .hubNode{width:88px!important;min-height:58px!important;border-radius:16px!important;font-size:11px!important}
   .quvirlSignalHub .hubNode small{font-size:9px!important}
-  .quvirlSignalHub .nGoogle{left:4%!important;top:42%!important}
-  .quvirlSignalHub .nAmazon{right:4%!important;top:30%!important}
-  .quvirlSignalHub .nCJ{right:4%!important;top:60%!important}
+  .quvirlSignalHub .nGoogle{left:0!important;top:42%!important}
+  .quvirlSignalHub .nAmazon{right:0!important;top:27%!important}
+  .quvirlSignalHub .nCJ{right:0!important;top:62%!important}
   .quvirlSignalHub .hubWire{left:42%!important;top:52%!important}
-  .quvirlSignalHub .wGoogle{width:104px!important;transform:rotate(180deg)!important}
-  .quvirlSignalHub .wAmazon{width:120px!important;transform:rotate(-30deg)!important}
-  .quvirlSignalHub .wCJ{width:120px!important;transform:rotate(30deg)!important}
+  .quvirlSignalHub .wGoogle{width:112px!important;transform:rotate(180deg)!important}
+  .quvirlSignalHub .wAmazon{width:132px!important;transform:rotate(-32deg)!important}
+  .quvirlSignalHub .wCJ{width:132px!important;transform:rotate(32deg)!important}
 }
 `;
 
 html = html.replace(/\/\* Signal hub side-layout final override \*\/[\s\S]*?(?=<\/style>)/g, '');
 html = html.replace('</style>', css + '\n</style>');
 fs.writeFileSync(file, html, 'utf8');
-console.log('Applied compact signal hub with left details and right visual.');
+console.log('Applied compact Quvirl overview with wider signal hub spacing.');
