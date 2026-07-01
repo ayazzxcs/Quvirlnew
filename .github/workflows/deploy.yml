@@ -72,10 +72,6 @@ jobs:
         run: |
           node patch-product-links.js
 
-      - name: Apply Wix-style visual polish
-        run: |
-          node patch-wix-style.js
-
       - name: Commit generated pages
         run: |
           git config user.name "github-actions"
